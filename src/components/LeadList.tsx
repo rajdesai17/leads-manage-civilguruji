@@ -8,6 +8,17 @@ interface LeadListProps {
 const LeadList: React.FC<LeadListProps> = ({ leads }) => {
   const [sortField, setSortField] = useState<string>("");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
+
+  const toggleRowExpansion = (leadId: string) => {
+    const newExpandedRows = new Set(expandedRows);
+    if (newExpandedRows.has(leadId)) {
+      newExpandedRows.delete(leadId);
+    } else {
+      newExpandedRows.add(leadId);
+    }
+    setExpandedRows(newExpandedRows);
+  };
 
   const handleSort = (field: string) => {
     if (sortField === field) {
@@ -150,50 +161,164 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
                   <SortIcon field="updatedAt" />
                 </div>
               </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-8">
+                {/* Empty header for expand button column */}
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {sortedLeads.map((lead, index) => (
-              <tr key={lead._id || lead.email} className="hover:bg-gray-50/50 transition-colors">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-blue-500 hover:text-blue-800 cursor-pointer">
-                    {lead.name}
-                  </div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm text-gray-900">{lead.phone}</div>
-                  <div className="text-sm text-gray-500">{lead.email}</div>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {getStatusBadge(lead.status)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {lead.qualification}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {lead.interestField}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {lead.source}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {lead.assignedTo}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {new Date(lead.updatedAt || lead.createdAt || '').toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric'
-                  })}
-                  <div className="text-xs text-gray-400">
-                    {new Date(lead.updatedAt || lead.createdAt || '').toLocaleTimeString('en-US', {
-                      hour: '2-digit',
-                      minute: '2-digit'
-                    })}
-                  </div>
-                </td>
-              </tr>
-            ))}
+            {sortedLeads.map((lead, index) => {
+              const leadId = lead._id || lead.email;
+              const isExpanded = expandedRows.has(leadId);
+              
+              return (
+                <React.Fragment key={leadId}>
+                                     {/* Main Row */}
+                   <tr className="hover:bg-gray-50/50 transition-colors">
+                     <td className="px-6 py-4 whitespace-nowrap">
+                       <div className="text-sm font-medium text-blue-500 hover:text-blue-800 cursor-pointer">
+                         {lead.name}
+                       </div>
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap">
+                       <div className="text-sm font-medium text-gray-900">{lead.phone}</div>
+                       <div className="text-sm font-medium text-gray-500">{lead.email}</div>
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap">
+                       {getStatusBadge(lead.status)}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                       {lead.qualification}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                       {lead.interestField}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                       {lead.source}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                       {lead.assignedTo}
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
+                       {new Date(lead.updatedAt || lead.createdAt || '').toLocaleDateString('en-US', {
+                         month: 'short',
+                         day: 'numeric',
+                         year: 'numeric'
+                       })}
+                       <div className="text-xs font-medium text-gray-400">
+                         {new Date(lead.updatedAt || lead.createdAt || '').toLocaleTimeString('en-US', {
+                           hour: '2-digit',
+                           minute: '2-digit'
+                         })}
+                       </div>
+                     </td>
+                     <td className="px-6 py-4 whitespace-nowrap w-8">
+                       <button
+                         onClick={() => toggleRowExpansion(leadId)}
+                         className="p-1 rounded hover:bg-gray-200 transition-colors"
+                       >
+                         <svg 
+                           className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} 
+                           fill="none" 
+                           stroke="currentColor" 
+                           viewBox="0 0 24 24"
+                         >
+                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                         </svg>
+                       </button>
+                     </td>
+                   </tr>
+                  
+                                     {/* Expanded Details Row */}
+                   {isExpanded && (
+                     <tr className="bg-gray-50/30">
+                       <td colSpan={9} className="px-6 py-4">
+                        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+                          <h4 className="text-sm font-semibold text-gray-900 mb-3">Additional Details</h4>
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {/* Contact Information */}
+                            <div className="space-y-2">
+                              <h5 className="text-xs font-medium text-gray-700 uppercase tracking-wider">Contact Info</h5>
+                              {lead.altPhone && (
+                                <div>
+                                  <span className="text-xs text-gray-500">Alt. Phone:</span>
+                                  <p className="text-sm text-gray-900">{lead.altPhone}</p>
+                                </div>
+                              )}
+                              {lead.altEmail && (
+                                <div>
+                                  <span className="text-xs text-gray-500">Alt. Email:</span>
+                                  <p className="text-sm text-gray-900">{lead.altEmail}</p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Location Information */}
+                            <div className="space-y-2">
+                              <h5 className="text-xs font-medium text-gray-700 uppercase tracking-wider">Location</h5>
+                              {lead.state && (
+                                <div>
+                                  <span className="text-xs text-gray-500">State:</span>
+                                  <p className="text-sm text-gray-900">{lead.state}</p>
+                                </div>
+                              )}
+                              {lead.city && (
+                                <div>
+                                  <span className="text-xs text-gray-500">City:</span>
+                                  <p className="text-sm text-gray-900">{lead.city}</p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Professional Information */}
+                            <div className="space-y-2">
+                              <h5 className="text-xs font-medium text-gray-700 uppercase tracking-wider">Professional</h5>
+                              {lead.jobInterest && (
+                                <div>
+                                  <span className="text-xs text-gray-500">Job Interest:</span>
+                                  <p className="text-sm text-gray-900">{lead.jobInterest}</p>
+                                </div>
+                              )}
+                              {lead.passoutYear && (
+                                <div>
+                                  <span className="text-xs text-gray-500">Passout Year:</span>
+                                  <p className="text-sm text-gray-900">{lead.passoutYear}</p>
+                                </div>
+                              )}
+                              {lead.heardFrom && (
+                                <div>
+                                  <span className="text-xs text-gray-500">Heard From:</span>
+                                  <p className="text-sm text-gray-900">{lead.heardFrom}</p>
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Timestamps */}
+                            <div className="space-y-2">
+                              <h5 className="text-xs font-medium text-gray-700 uppercase tracking-wider">Timeline</h5>
+                              {lead.createdAt && (
+                                <div>
+                                  <span className="text-xs text-gray-500">Created:</span>
+                                  <p className="text-sm text-gray-900">
+                                    {new Date(lead.createdAt).toLocaleDateString('en-US', {
+                                      month: 'short',
+                                      day: 'numeric',
+                                      year: 'numeric',
+                                      hour: '2-digit',
+                                      minute: '2-digit'
+                                    })}
+                                  </p>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </React.Fragment>
+              );
+            })}
           </tbody>
         </table>
       </div>

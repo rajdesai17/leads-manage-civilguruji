@@ -1,83 +1,60 @@
-# Lead Management System - CivilGuruji
+# 🧪 Lead Management Task - Full Stack Solution
 
-A modern, full-stack lead management application built with React, TypeScript, Node.js, and MongoDB.
+This is my solution to the Lead Management Module task, implementing both **frontend** and **backend** functionality.
 
-## Features
+## 🎯 Task Overview
 
-- **Lead Management**: Add, view, and manage leads with comprehensive details
-- **Advanced Filtering**: Filter leads by status, search terms with AND/OR conditions
-- **Sortable Table**: Click column headers to sort leads by any field
-- **Status Tracking**: Four status levels - New, Follow-Up, Qualified, Converted
-- **Responsive Design**: Modern UI with Tailwind CSS and responsive layout
-- **Collapsible Sidebar**: Clean navigation with expandable/collapsible sidebar
-- **Real-time Search**: Instant search across names, emails, and phone numbers
+Build a Lead Capture Form + Lead List with focus on:
+- UI/UX and form validation (frontend)
+- API integration and component structure
+- Database modeling, routes, and controllers (backend)
 
-## Tech Stack
+## ✅ What I Built
 
-### Frontend
-- **React 18** with TypeScript
-- **Vite** for fast development and building
-- **Tailwind CSS** for styling
-- **React Hook Form** with Yup validation
-- **Axios** for API calls
+**Full Stack Solution** featuring:
+- **Lead Capture Form** with validation
+- **Lead List** with sorting, filtering, and search
+- **Professional UI** matching provided design reference
+- **REST API** with MongoDB integration
+- **Expandable rows** with additional lead details
 
-### Backend
-- **Node.js** with Express.js
-- **MongoDB** with Mongoose ODM
-- **CORS** enabled for cross-origin requests
-- **RESTful API** design
+## 🛠 Tech Stack
 
-## Getting Started
+**Frontend:** React 18, TypeScript, Tailwind CSS, React Hook Form, Yup validation  
+**Backend:** Node.js, Express.js, MongoDB, Mongoose
 
-### Prerequisites
-- Node.js (v16 or higher)
-- MongoDB (local or cloud instance)
+## 🚀 Quick Start
 
-### Installation
-
-1. Clone the repository:
 ```bash
+# Clone and install
 git clone https://github.com/rajdesai17/leads-manage-civilguruji.git
 cd leads-manage-civilguruji
-```
-
-2. Install dependencies for both frontend and backend:
-```bash
 npm install
 cd server && npm install && cd ..
-```
 
-3. Set up environment variables:
-Create a `.env` file in the `server` directory:
-```env
+# Setup MongoDB connection in server/.env
 MONGODB_URI=mongodb://localhost:27017/leads_db
 PORT=5001
-```
 
-4. Start the development servers:
-```bash
+# Run both frontend and backend
 npm run dev
 ```
 
-This will start:
-- Frontend (Vite): http://localhost:5173
-- Backend (Express): http://localhost:5001
+**Access:** Frontend at `http://localhost:5173` | Backend at `http://localhost:5001`
 
-### Available Scripts
+## 📋 Features Implemented
 
-- `npm run dev` - Start both frontend and backend concurrently
-- `npm run frontend` - Start only the frontend development server
-- `npm run backend` - Start only the backend server
-- `npm run build` - Build the frontend for production
+- ✅ Lead capture form with comprehensive validation
+- ✅ Lead list with sorting by all columns
+- ✅ Advanced filtering (status, search with AND/OR logic)
+- ✅ Responsive design matching UI reference
+- ✅ Collapsible sidebar navigation
+- ✅ Expandable row details
+- ✅ Professional status badges and typography
+- ✅ REST API with full CRUD operations
+- ✅ MongoDB data persistence
 
-## API Endpoints
-
-- `GET /api/leads` - Get all leads
-- `POST /api/leads` - Create a new lead
-- `PUT /api/leads/:id` - Update a lead
-- `DELETE /api/leads/:id` - Delete a lead
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 lead-task-fullstack-enhanced/

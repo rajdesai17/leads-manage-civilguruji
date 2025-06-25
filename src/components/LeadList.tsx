@@ -93,7 +93,7 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
       <div className="overflow-hidden">
         <table className="min-w-full">
-          <thead>
+        <thead>
             <tr className="border-b border-gray-200 bg-gray-50/50">
               <th 
                 onClick={() => handleSort("name")}
@@ -164,8 +164,8 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-8">
                 {/* Empty header for expand button column */}
               </th>
-            </tr>
-          </thead>
+          </tr>
+        </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {sortedLeads.map((lead, index) => {
               const leadId = lead._id || lead.email;
@@ -314,13 +314,13 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
                           </div>
                         </div>
                       </td>
-                    </tr>
+            </tr>
                   )}
                 </React.Fragment>
               );
             })}
-          </tbody>
-        </table>
+        </tbody>
+      </table>
       </div>
     </div>
   );

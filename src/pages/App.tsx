@@ -13,6 +13,11 @@ const App: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
+  // Temporary filter states (for the modal)
+  const [tempSearchTerm, setTempSearchTerm] = useState("");
+  const [tempFilterCondition, setTempFilterCondition] = useState("AND");
+  const [tempStatusFilter, setTempStatusFilter] = useState("");
+
   const fetchLeads = async () => {
     try {
       const res = await api.get<Lead[]>("/leads");
@@ -42,10 +47,28 @@ const App: React.FC = () => {
     setSearchTerm("");
     setStatusFilter("");
     setFilterCondition("AND");
+    setTempSearchTerm("");
+    setTempStatusFilter("");
+    setTempFilterCondition("AND");
+  };
+
+  const applyFilters = () => {
+    setSearchTerm(tempSearchTerm);
+    setStatusFilter(tempStatusFilter);
+    setFilterCondition(tempFilterCondition);
+    setShowFilters(false);
+  };
+
+  const openFilterModal = () => {
+    // Initialize temp states with current values
+    setTempSearchTerm(searchTerm);
+    setTempStatusFilter(statusFilter);
+    setTempFilterCondition(filterCondition);
+    setShowFilters(true);
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 flex overflow-hidden">
       {/* Sidebar */}
       <aside className={`${sidebarCollapsed ? 'w-16' : 'w-64'} bg-white border-r border-gray-200 flex-shrink-0 transition-all duration-300`}>
         <div className={`${sidebarCollapsed ? 'p-3' : 'p-6'}`}>
@@ -87,39 +110,43 @@ const App: React.FC = () => {
           )}
           
           <nav className="space-y-1">
-            <a href="#" className={`flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-900 bg-gray-100 rounded-lg ${sidebarCollapsed ? 'justify-center' : ''}`} title={sidebarCollapsed ? 'Leads' : ''}>
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 515.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-              </svg>
-              {!sidebarCollapsed && 'Leads'}
-            </a>
             <a href="#" className={`flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg ${sidebarCollapsed ? 'justify-center' : ''}`} title={sidebarCollapsed ? 'Dashboard' : ''}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
               </svg>
               {!sidebarCollapsed && 'Dashboard'}
             </a>
+            <a href="#" className={`flex items-center gap-3 px-3 py-2 text-sm font-medium text-gray-900 bg-gray-100 rounded-lg ${sidebarCollapsed ? 'justify-center' : ''}`} title={sidebarCollapsed ? 'Leads' : ''}>
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 00-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 010 7.75"></path>
+              </svg>
+              {!sidebarCollapsed && 'Leads'}
+            </a>
             <a href="#" className={`flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg ${sidebarCollapsed ? 'justify-center' : ''}`} title={sidebarCollapsed ? 'Follow-Ups' : ''}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               {!sidebarCollapsed && 'Follow-Ups'}
             </a>
             <a href="#" className={`flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg ${sidebarCollapsed ? 'justify-center' : ''}`} title={sidebarCollapsed ? 'Sales Activity' : ''}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4-4 4 4 8-8" />
               </svg>
               {!sidebarCollapsed && 'Sales Activity'}
             </a>
             <a href="#" className={`flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg ${sidebarCollapsed ? 'justify-center' : ''}`} title={sidebarCollapsed ? 'Products' : ''}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.27 6.96L12 12.01l8.73-5.05M12 22.08V12" />
               </svg>
               {!sidebarCollapsed && 'Products'}
             </a>
             <a href="#" className={`flex items-center gap-3 px-3 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg ${sidebarCollapsed ? 'justify-center' : ''}`} title={sidebarCollapsed ? 'Notifications' : ''}>
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-5 5v-5zM15 17H9a4 4 0 01-4-4V5a2 2 0 012-2h4" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
               </svg>
               {!sidebarCollapsed && 'Notifications'}
             </a>
@@ -135,9 +162,9 @@ const App: React.FC = () => {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Top Navigation Bar */}
-        <header className="bg-white border-b border-gray-200 px-6 py-4">
+        <header className="bg-white border-b border-gray-200 px-6 py-4 flex-shrink-0">
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Leads</h1>
@@ -146,7 +173,7 @@ const App: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setShowFilters(!showFilters)}
+                  onClick={openFilterModal}
                   className="flex items-center gap-2 px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -180,7 +207,7 @@ const App: React.FC = () => {
         </header>
 
         {/* Search Bar */}
-        <div className="bg-white px-6 py-4 border-b border-gray-200">
+        <div className="bg-white px-6 py-4 border-b border-gray-200 flex-shrink-0">
           <div className="relative">
             <svg className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -189,15 +216,18 @@ const App: React.FC = () => {
               type="text"
               placeholder="Search leads..."
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              readOnly
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50 cursor-pointer"
+              onClick={openFilterModal}
             />
           </div>
         </div>
 
         {/* Main Content Area */}
-        <main className="flex-1 p-6 bg-gray-50">
-          <LeadList leads={filteredLeads} />
+        <main className="flex-1 p-6 bg-gray-50 overflow-visible">
+          <div className="overflow-auto">
+            <LeadList leads={filteredLeads} />
+          </div>
         </main>
       </div>
 
@@ -237,6 +267,18 @@ const App: React.FC = () => {
         </div>
         
         <div className="space-y-6">
+          {/* Search Input */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Search</label>
+            <input
+              type="text"
+              placeholder="Search leads..."
+              value={tempSearchTerm}
+              onChange={(e) => setTempSearchTerm(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+
           {/* Match Condition */}
           <div>
             <label className="text-sm font-medium text-gray-700 mb-3 block">Match</label>
@@ -246,8 +288,8 @@ const App: React.FC = () => {
                   type="radio"
                   name="condition"
                   value="AND"
-                  checked={filterCondition === "AND"}
-                  onChange={(e) => setFilterCondition(e.target.value)}
+                  checked={tempFilterCondition === "AND"}
+                  onChange={(e) => setTempFilterCondition(e.target.value)}
                   className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                 />
                 <span className="ml-2 text-sm text-gray-900">ALL conditions (AND)</span>
@@ -257,8 +299,8 @@ const App: React.FC = () => {
                   type="radio"
                   name="condition"
                   value="OR"
-                  checked={filterCondition === "OR"}
-                  onChange={(e) => setFilterCondition(e.target.value)}
+                  checked={tempFilterCondition === "OR"}
+                  onChange={(e) => setTempFilterCondition(e.target.value)}
                   className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                 />
                 <span className="ml-2 text-sm text-gray-900">ANY condition (OR)</span>
@@ -271,8 +313,8 @@ const App: React.FC = () => {
             <div className="w-48">
               <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
               <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
+                value={tempStatusFilter}
+                onChange={(e) => setTempStatusFilter(e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Select status</option>
@@ -282,9 +324,9 @@ const App: React.FC = () => {
                 <option value="New">New</option>
               </select>
             </div>
-            {statusFilter && (
+            {tempStatusFilter && (
               <button
-                onClick={() => setStatusFilter("")}
+                onClick={() => setTempStatusFilter("")}
                 className="mt-6 p-2 text-gray-400 hover:text-gray-600"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -301,16 +343,16 @@ const App: React.FC = () => {
           <div className="flex justify-end gap-3 pt-6 border-t border-gray-200">
             <button
               onClick={() => {
-                setSearchTerm("");
-                setStatusFilter("");
-                setFilterCondition("AND");
+                setTempSearchTerm("");
+                setTempStatusFilter("");
+                setTempFilterCondition("AND");
               }}
               className="px-4 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50"
             >
               Clear
             </button>
             <button 
-              onClick={() => setShowFilters(false)}
+              onClick={applyFilters}
               className="px-4 py-2 text-sm bg-gray-900 text-white rounded-lg hover:bg-gray-800"
             >
               Apply Filters

@@ -1,0 +1,32 @@
+{
+  "name": "lead-evaluation-task",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "frontend": "vite",
+    "backend": "npm run dev --prefix server",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^3.0.0",
+    "axios": "^1.6.0",
+    "cors": "^2.8.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.45.0",
+    "yup": "^1.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.37",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^4.6.0",
+    "autoprefixer": "^10.4.14",
+    "concurrently": "^8.2.0",
+    "postcss": "^8.4.21",
+    "tailwindcss": "^3.3.2",
+    "typescript": "^5.0.2",
+    "vite": "^4.2.0"
+  }
+}

@@ -97,7 +97,7 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
             <tr className="border-b border-gray-200 bg-gray-50/50">
               <th 
                 onClick={() => handleSort("name")}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
               >
                 <div className="flex items-center">
                   Name
@@ -106,7 +106,7 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
               </th>
               <th 
                 onClick={() => handleSort("phone")}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
               >
                 <div className="flex items-center">
                   Contact
@@ -115,7 +115,7 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
               </th>
               <th 
                 onClick={() => handleSort("status")}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
               >
                 <div className="flex items-center">
                   Status
@@ -124,7 +124,7 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
               </th>
               <th 
                 onClick={() => handleSort("qualification")}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
               >
                 <div className="flex items-center">
                   Qualification
@@ -133,7 +133,7 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
               </th>
               <th 
                 onClick={() => handleSort("interestField")}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
               >
                 <div className="flex items-center">
                   Interest
@@ -142,26 +142,26 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
               </th>
               <th 
                 onClick={() => handleSort("source")}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
               >
                 <div className="flex items-center">
                   Source
                   <SortIcon field="source" />
                 </div>
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Assigned To
               </th>
               <th 
                 onClick={() => handleSort("updatedAt")}
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
               >
                 <div className="flex items-center">
                   Updated At
                   <SortIcon field="updatedAt" />
                 </div>
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-8">
+              <th className="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-8">
                 {/* Empty header for expand button column */}
               </th>
           </tr>
@@ -175,31 +175,31 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
                 <React.Fragment key={leadId}>
                                      {/* Main Row */}
                    <tr className="hover:bg-gray-50/50 transition-colors">
-                     <td className="px-6 py-4 whitespace-nowrap">
+                     <td className="px-4 py-4 whitespace-nowrap">
                        <div className="text-sm font-medium text-blue-500 hover:text-blue-800 cursor-pointer">
                          {lead.name}
                        </div>
                      </td>
-                     <td className="px-6 py-4 whitespace-nowrap">
+                     <td className="px-4 py-4 whitespace-nowrap">
                        <div className="text-sm font-medium text-gray-900">{lead.phone}</div>
                        <div className="text-sm font-medium text-gray-500">{lead.email}</div>
                      </td>
-                     <td className="px-6 py-4 whitespace-nowrap">
+                     <td className="px-4 py-4 whitespace-nowrap">
                        {getStatusBadge(lead.status)}
                      </td>
-                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                     <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                        {lead.qualification}
                      </td>
-                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                     <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                        {lead.interestField}
                      </td>
-                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                     <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                        {lead.source}
                      </td>
-                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                     <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                        {lead.assignedTo}
                      </td>
-                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
+                     <td className="px-4 py-4 whitespace-nowrap text-sm font-medium text-gray-500">
                        {new Date(lead.updatedAt || lead.createdAt || '').toLocaleDateString('en-US', {
                          month: 'short',
                          day: 'numeric',
@@ -212,7 +212,7 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
                          })}
                        </div>
                      </td>
-                     <td className="px-6 py-4 whitespace-nowrap w-8">
+                     <td className="px-2 py-4 whitespace-nowrap w-8">
                        <button
                          onClick={() => toggleRowExpansion(leadId)}
                          className="p-1 rounded hover:bg-gray-200 transition-colors"
@@ -232,8 +232,8 @@ const LeadList: React.FC<LeadListProps> = ({ leads }) => {
                                      {/* Expanded Details Row */}
                    {isExpanded && (
                      <tr className="bg-gray-50/30">
-                       <td colSpan={9} className="px-6 py-4">
-                        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm">
+                       <td colSpan={9} className="px-4 py-4">
+                        <div className="bg-white rounded-lg border border-gray-200 p-4 shadow-sm relative z-10">
                           <h4 className="text-sm font-semibold text-gray-900 mb-3">Additional Details</h4>
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {/* Contact Information */}

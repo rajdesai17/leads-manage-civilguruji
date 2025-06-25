@@ -20,6 +20,13 @@ Build a Lead Capture Form + Lead List with focus on:
 - **REST API** with MongoDB integration
 - **Expandable rows** with additional lead details
 
+## Snapshots
+![image](https://github.com/user-attachments/assets/ae0f751b-c987-4b7c-ae76-1821741af8ad)
+![image](https://github.com/user-attachments/assets/a4aef7fd-1901-4f6f-b4ff-2eef49cda676)
+![image](https://github.com/user-attachments/assets/745a8ae9-22f8-4cc9-8b71-52ff08bf2488)
+
+
+
 ## 🛠 Tech Stack
 
 **Frontend:** React 18, TypeScript, Tailwind CSS, React Hook Form, Yup validation  
